@@ -66,43 +66,6 @@ class User
         }
     }
 
-    public static function connectDb()
-    {
-        self::$db = new PDO('pgsql:dbname=database;host=db;port=5432;user=root;password=supersafepassword');
-    }
-
-    /**
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @return User[]
-     */
-    public static function getUsers()
-    {
-        $results = self::$db->query("SELECT id, email FROM users");
-
-        $users = [];
-
-        while ($result = $results->fetchObject()) {
-            $users[] = new User($result->id, $result->email);
-        }
-
-        return $users;
-    }
-
     public static function getUserByEmail($email)
     {
         $results = self::$db->query("SELECT id, email FROM users WHERE email = '$email' LIMIT 1");
@@ -123,5 +86,42 @@ class User
     private static function encode($data)
     {
         return hash('sha512', $data);
+    }
+
+    public static function connectDb()
+    {
+        self::$db = new PDO('pgsql:dbname=database;host=db;port=5432;user=root;password=supersafepassword');
+    }
+
+    /**
+     * @return User[]
+     */
+    public static function getUsers()
+    {
+        $results = self::$db->query("SELECT id, email FROM users");
+
+        $users = [];
+
+        while ($result = $results->fetchObject()) {
+            $users[] = new User($result->id, $result->email);
+        }
+
+        return $users;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }
