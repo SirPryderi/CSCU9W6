@@ -1,0 +1,46 @@
+version: "3.0"
+services:
+  web:
+    container_name: web
+    build:
+      context: ./
+      dockerfile: ./docker-images/web/Dockerfile
+
+    deploy:
+      replicas: 1
+
+    ports:
+      - "80:80"
+
+    networks:
+      - webnet
+
+    volumes:
+      - ./src:/var/www/html
+
+    links:
+      - db
+
+  db:
+    container_name: db
+    build:
+      context: ./docker-images/db/
+      dockerfile: ./Dockerfile
+
+    ports:
+      - "5432:5432"
+
+    restart: always
+
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "supersafepassword"
+      POSTGRES_DB: "database"
+
+    networks:
+      - webnet
+
+networks:
+  webnet:
+
+    
