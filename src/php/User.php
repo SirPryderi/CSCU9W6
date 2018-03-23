@@ -13,6 +13,20 @@ class User
      */
     private static $db;
 
+    private $id;
+    private $email;
+
+    /**
+     * User constructor.
+     * @param $id
+     * @param $email
+     */
+    public function __construct($id, $email)
+    {
+        $this->id = intval($id);
+        $this->email = $email;
+    }
+
     public static function createUser($email, $password, $passwordConfirm)
     {
         assert(self::$db != null);
@@ -49,5 +63,56 @@ class User
     public static function connectDb()
     {
         self::$db = new PDO('pgsql:dbname=database;host=db;port=5432;user=root;password=supersafepassword');
+    }
+
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return User[]
+     */
+    public static function getUsers()
+    {
+        $results = self::$db->query("SELECT id, email FROM users");
+
+        $users = [];
+
+        while ($result = $results->fetchObject()) {
+            $users[] = new User($result->id, $result->email);
+        }
+
+        return $users;
+    }
+
+    public static function getUserByEmail($email)
+    {
+        // TODO test this function
+
+        $results = self::$db->query("SELECT id, email FROM users WHERE email = $email LIMIT 1");
+
+        if (!$results) {
+            throw new RuntimeException("Failed to fetch user.");
+        }
+
+        $rawUser = $results->fetchObject();
+
+        if ($rawUser == null) {
+            return null;
+        }
+
+        return new User($rawUser->id, $rawUser->email);
     }
 }
