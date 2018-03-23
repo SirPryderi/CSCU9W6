@@ -2,9 +2,12 @@
   "name": "CSUC9W6",
   "version": "0.1.0",
   "devDependencies": {
+    "css-loader": "^0.28.11",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
     "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.13",
-    "node-sass": "^4.7.2"
+    "webpack-cli": "^2.0.13"
   },
   "scripts": {
     "build": "webpack -p",
