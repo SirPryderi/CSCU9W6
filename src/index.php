@@ -48,6 +48,7 @@ User::connectDb();
     <div class="container" id="register">
         <div class="wrapper">
             <h1>Users</h1>
+            <hr class="colorgraph">
             <table class="table">
                 <thead>
                 <tr>
