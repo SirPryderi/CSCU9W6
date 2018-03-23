@@ -35,6 +35,10 @@ class User
             throw new RuntimeException("Email is empty.");
         }
 
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            throw new RuntimeException("Email $email is not valid.");
+        }
+
         if (empty($password)) {
             throw new RuntimeException("Password is empty.");
         }
@@ -43,7 +47,9 @@ class User
             throw new RuntimeException("Password do not match.");
         }
 
-        // TODO check if email exists
+        if (self::getUserByEmail($email) != null) {
+            throw new RuntimeException("User $email already exists.");
+        }
 
         $salt = hash('sha512', uniqid());
 
@@ -99,9 +105,7 @@ class User
 
     public static function getUserByEmail($email)
     {
-        // TODO test this function
-
-        $results = self::$db->query("SELECT id, email FROM users WHERE email = $email LIMIT 1");
+        $results = self::$db->query("SELECT id, email FROM users WHERE email = '$email' LIMIT 1");
 
         if (!$results) {
             throw new RuntimeException("Failed to fetch user.");
