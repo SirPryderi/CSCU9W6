@@ -51,9 +51,9 @@ class User
             throw new RuntimeException("User $email already exists.");
         }
 
-        $salt = hash('sha512', uniqid());
+        $salt = self::encode(uniqid());
 
-        $password_salted = hash('sha512', $password . $salt);
+        $password_salted = self::encode($password . $salt);
 
         $statement = "INSERT INTO users (email, password, salt) VALUES ('$email', '$password_salted', '$salt' )";
 
@@ -118,5 +118,10 @@ class User
         }
 
         return new User($rawUser->id, $rawUser->email);
+    }
+
+    private static function encode($data)
+    {
+        return hash('sha512', $data);
     }
 }
