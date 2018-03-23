@@ -19,6 +19,8 @@ RUN apt-get update && \
 
 RUN echo "extension=php_pgsql.so" > $PHP_INI_DIR/conf.d/php_pgsql.ini
 
+RUN a2enmod rewrite && service apache2 restart
+
 COPY docker-images/web/php.ini /usr/local/etc/php/
 
 RUN service apache2 restart
