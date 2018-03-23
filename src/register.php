@@ -8,6 +8,7 @@
 
 include 'php/Paginator.php';
 
+session_start();
 Paginator::makeHeader('Register');
 ?>
 
@@ -17,6 +18,7 @@ Paginator::makeHeader('Register');
                 <h3 class="form-heading">Register</h3>
                 <hr class="colorgraph">
                 <br>
+                <?php Paginator::errorNotification() ?>
 
                 <div class="input-group-cluster">
                     <input type="email" class="form-control" name="email" placeholder="Email" required="required"

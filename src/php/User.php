@@ -37,20 +37,10 @@ class User
     {
         assert(self::$db != null);
 
-        if (empty($email)) {
-            throw new RuntimeException("Email is empty.");
-        }
-
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            throw new RuntimeException("Email $email is not valid.");
-        }
-
-        if (empty($password)) {
-            throw new RuntimeException("Password is empty.");
-        }
+        self::validate($email, $password);
 
         if ($password != $passwordConfirm) {
-            throw new RuntimeException("Password do not match.");
+            throw new RuntimeException("Passwords do not match.");
         }
 
         if (self::getUserByEmail($email) != null) {
@@ -69,6 +59,25 @@ class User
 
         if (!$results) {
             throw new RuntimeException("Failed to create the user due to an unknown error.");
+        }
+    }
+
+    /**
+     * @param $email string
+     * @param $password string
+     */
+    private static function validate($email, $password): void
+    {
+        if (empty($email)) {
+            throw new RuntimeException("Email is empty.");
+        }
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            throw new RuntimeException("Email $email is not valid.");
+        }
+
+        if (empty($password)) {
+            throw new RuntimeException("Password is empty.");
         }
     }
 
@@ -96,6 +105,8 @@ class User
 
     public static function login($email, $password)
     {
+        self::validate($email, $password);
+
         $user = self::getUserByEmail($email);
 
         if ($user === null) {

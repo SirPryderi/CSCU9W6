@@ -1,20 +1,20 @@
 # TODO
 
-- [ ] Database
-    - [ ] _users_ table
+- [X] Database
+    - [X] _users_ table
 
 - [ ] Front End
-    - [ ] Register Page
-    - [ ] Login Page
+    - [X] Register Page
+    - [X] Login Page
     - [ ] Forgot Page
-    - [ ] Validation
+    - [ ] Live Validation
         - [ ] Regex
     
 - [ ] Backend
-    - [ ] Registration
-        - [ ] Message for existing email
-    - [ ] Login
+    - [X] Registration
+        - [X] Message for existing email
+    - [X] Login
     - [ ] Forgot
-    - [ ] Validation
-    - [ ] Session
+    - [X] Validation
+    - [X] Session
     - [ ] Session on Redis?

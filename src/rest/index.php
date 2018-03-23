@@ -12,7 +12,13 @@ $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
 
 User::connectDb();
 
-handleAction($action);
+try {
+    handleAction($action);
+} catch (Exception $e) {
+    $_SESSION['error'] = $e->getMessage();
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
+}
 
 handleRedirect();
 

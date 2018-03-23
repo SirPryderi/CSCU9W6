@@ -32,4 +32,13 @@ class Paginator
         </html>
         <?php
     }
+
+    public static function errorNotification()
+    {
+        if (isset($_SESSION['error'])) {
+            $error = $_SESSION['error'];
+            echo "<div class=\"alert alert-danger\" role=\"alert\">$error</div>";
+            unset($_SESSION['error']);
+        }
+    }
 }

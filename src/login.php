@@ -21,12 +21,15 @@ Paginator::makeHeader('login');
     <div class="container" id="login">
         <div class="wrapper">
             <form action="rest/" method="POST" name="Login_Form" class="form-signin">
+
+
                 <h3 class="form-heading">Authentication</h3>
                 <hr class="colorgraph">
                 <br>
+                <?php Paginator::errorNotification() ?>
 
                 <div class="input-group-cluster">
-                    <input type="text" class="form-control" name="email" placeholder="Email" required=""
+                    <input type="email" class="form-control" name="email" placeholder="Email" required=""
                            autofocus=""/>
                     <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
                 </div>
