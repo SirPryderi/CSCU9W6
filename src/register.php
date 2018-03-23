@@ -32,6 +32,9 @@ Paginator::makeHeader('Register');
 
                 <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit">Register
                 </button>
+
+                <br/>
+                <div class="text-muted">Already registered? <a href="/login">Login</a>!</div>
             </form>
         </div>
     </div>
