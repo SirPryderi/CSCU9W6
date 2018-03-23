@@ -14,7 +14,7 @@ Paginator::makeHeader('login');
     <div class="container" id="login">
         <div class="wrapper">
             <form action="" method="post" name="Login_Form" class="form-signin">
-                <h3 class="form-signin-heading">Authentication</h3>
+                <h3 class="form-heading">Authentication</h3>
                 <hr class="colorgraph">
                 <br>
 
