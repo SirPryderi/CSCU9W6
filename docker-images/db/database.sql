@@ -1,8 +1,9 @@
-create table my_table
-(
-  id          integer,
-  description varchar
-);
+DROP TABLE IF EXISTS users;
 
-INSERT INTO my_table (id, description) VALUES (0, 'it works');
-INSERT INTO my_table (id, description) VALUES (0, 'it is happy');
+create table users
+(
+  id       serial primary key ,
+  email    varchar(50) unique ,
+  password varchar(128),
+  salt     varchar(128)
+);
