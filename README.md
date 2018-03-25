@@ -6,7 +6,7 @@
 - [ ] Front End
     - [X] Register Page
     - [X] Login Page
-    - [ ] Forgot Page
+    - [X] Forgot Page
     - [ ] Live Validation
         - [ ] Regex
     
@@ -14,7 +14,7 @@
     - [X] Registration
         - [X] Message for existing email
     - [X] Login
-    - [ ] Forgot
+    - [X] Forgot
     - [X] Validation
     - [X] Session
     - [ ] Session on Redis?
