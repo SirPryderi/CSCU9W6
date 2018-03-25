@@ -25,11 +25,12 @@ Paginator::makeHeader('Register');
                 <div class="input-group-cluster">
                     <input type="email" class="form-control" name="email" placeholder="Email" required="required"
                            autofocus=""/>
-                    <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
+                    <input type="password" class="form-control password" name="password" placeholder="Password" required=""/>
 
-                    <input type="password" class="form-control" name="password-confirm" placeholder="Confirm Password"
+                    <input type="password" class="form-control password-confirm" name="password-confirm" placeholder="Confirm Password"
                            required=""/>
                 </div>
+                <p class="text-muted" id="password-info-message"></p>
 
                 <input type="hidden" name="action" value="register"/>
                 <input type="hidden" name="redirect" value="/"/>
