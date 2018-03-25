@@ -1,4 +1,5 @@
 <?php
+
 namespace PHP;
 
 /**
@@ -184,10 +185,9 @@ class User
         try {
             Postman::sendEmail($email, 'Password reset', "Your new password is: <b>$password</b>.");
             $user->setPassword($password);
-            // TODO convert this to a success message
-            $_SESSION['error'] = "A new password has been sent to $email.";
+            Notifier::addSuccessMessage("A new password has been sent to $email.");
         } catch (Exception $e) {
-            $_SESSION['error'] = "Failed to send email to $email.";
+            Notifier::addErrorMessage("Failed to send email to $email.");
         }
     }
 

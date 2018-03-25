@@ -36,10 +36,14 @@ class Paginator
 
     public static function errorNotification()
     {
-        if (isset($_SESSION['error'])) {
-            $error = $_SESSION['error'];
+        if (Notifier::isErrorMessage()) {
+            $error = Notifier::getErrorMessage();
             echo "<div class=\"alert alert-danger\" role=\"alert\">$error</div>";
-            unset($_SESSION['error']);
+        }
+
+        if (Notifier::isSuccessMessage()) {
+            $error = Notifier::getSuccessMessage();
+            echo "<div class=\"alert alert-success\" role=\"alert\">$error</div>";
         }
     }
 }

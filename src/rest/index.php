@@ -6,6 +6,7 @@
  * Time: 19:04
  */
 
+use PHP\Notifier;
 use PHP\User;
 
 include '../vendor/autoload.php';
@@ -18,10 +19,11 @@ try {
     handleAction($action);
     handleRedirect();
 } catch (Exception $e) {
-    $_SESSION['error'] = $e->getMessage();
+    Notifier::addErrorMessage($e->getMessage());
     goBack();
 }
 
+// END OF ACTIONS
 
 /*
  *
