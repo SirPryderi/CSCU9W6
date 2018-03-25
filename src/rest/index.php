@@ -14,13 +14,11 @@ User::connectDb();
 
 try {
     handleAction($action);
+    handleRedirect();
 } catch (Exception $e) {
     $_SESSION['error'] = $e->getMessage();
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
-    exit;
+    goBack();
 }
-
-handleRedirect();
 
 
 /*
@@ -39,17 +37,20 @@ handleRedirect();
  */
 function handleAction($action): void
 {
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+
     switch ($action) {
         case 'register':
-            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
             User::createUser($email, $_POST['password'], $_POST['password-confirm']);
             break;
         case 'login':
-            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
             User::login($email, $_POST['password']);
             break;
         case 'logout':
             User::logout();
+            break;
+        case 'forgot':
+            User::sendNewPasswordByEmail($email);
             break;
         default:
             new Exception("Invalid request.");
@@ -64,4 +65,9 @@ function handleRedirect(): void
     if ($redirect) {
         header("Location: $redirect");
     }
+}
+
+function goBack(): void
+{
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
 }

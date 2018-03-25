@@ -47,11 +47,11 @@ class User
             throw new RuntimeException("User $email already exists.");
         }
 
-        $salt = self::encode(uniqid());
+        $password_hash = $salt_hash = null;
 
-        $password_salted = self::encode($password . $salt);
+        self::generateHashPair($password, $password_hash, $salt_hash);
 
-        $statement = "INSERT INTO users (email, password, salt) VALUES ('$email', '$password_salted', '$salt' )";
+        $statement = "INSERT INTO users (email, password, salt) VALUES ('$email', '$password_hash', '$salt_hash' )";
 
         $query = self::$db->prepare($statement);
 
@@ -96,6 +96,12 @@ class User
         }
 
         return new User($rawUser->id, $rawUser->email, $rawUser->password, $rawUser->salt);
+    }
+
+    private static function generateHashPair($password, &$password_hash, &$salt_hash)
+    {
+        $salt_hash = self::encode(uniqid());
+        $password_hash = self::encode($password . $salt_hash);
     }
 
     private static function encode($data)
@@ -153,6 +159,37 @@ class User
         }
 
         return $users;
+    }
+
+    public static function sendNewPasswordByEmail($email)
+    {
+        require_once 'Postman.php';
+
+        $user = self::getUserByEmail($email);
+
+        if ($user === null) {
+            throw new RuntimeException("User not present our databases.");
+        }
+
+        $password = uniqid();
+
+        try {
+            Postman::sendEmail($email, 'Password reset', "Your new password is: <b>$password</b>.");
+            $user->setPassword($password);
+            // TODO convert this to a success message
+            $_SESSION['error'] = "A new password has been sent to $email.";
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Failed to send email to $email.";
+        }
+    }
+
+    public function setPassword($password)
+    {
+        $password_hash = $salt_hash = null;
+
+        self::generateHashPair($password, $password_hash, $salt_hash);
+
+        self::$db->query("UPDATE users SET salt = '$salt_hash', password = '$password_hash' WHERE id = $this->id");
     }
 
     /**

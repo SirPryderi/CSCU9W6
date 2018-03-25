@@ -1,0 +1,14 @@
+{
+    "name": "sirpryderi/cscu9w6",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.0",
+        "vlucas/phpdotenv": "^2.4"
+    },
+    "authors": [
+        {
+            "name": "Vittorio Iocolano",
+            "email": "pryderi.mail@gmail.com"
+        }
+    ]
+}
