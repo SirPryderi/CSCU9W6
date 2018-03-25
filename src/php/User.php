@@ -85,6 +85,10 @@ class User
             throw new RuntimeException("Email $email is not valid.");
         }
 
+        if (filter_var($email, FILTER_SANITIZE_STRING | FILTER_SANITIZE_STRING) != $email) {
+            throw new RuntimeException("Email $email contains illegal characters.");
+        }
+
         if (empty($password)) {
             throw new RuntimeException("Password is empty.");
         }
