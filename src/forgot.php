@@ -6,8 +6,10 @@
  * Time: 16:52
  */
 
-include 'php/Paginator.php';
-include 'php/User.php';
+use PHP\Paginator;
+use PHP\User;
+
+include 'vendor/autoload.php';
 
 session_start();
 
@@ -33,7 +35,8 @@ Paginator::makeHeader('login');
                 <input type="hidden" name="action" value="forgot"/>
                 <input type="hidden" name="redirect" value="/"/>
 
-                <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit">Renew password
+                <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit">Renew
+                    password
                 </button>
 
                 <br/>

@@ -6,7 +6,9 @@
  * Time: 17:55
  */
 
-include 'php/Paginator.php';
+use PHP\Paginator;
+
+include 'vendor/autoload.php';
 
 session_start();
 Paginator::makeHeader('Register');

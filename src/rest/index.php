@@ -6,7 +6,9 @@
  * Time: 19:04
  */
 
-include '../php/User.php';
+use PHP\User;
+
+include '../vendor/autoload.php';
 
 $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
 

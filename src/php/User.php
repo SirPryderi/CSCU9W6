@@ -1,10 +1,18 @@
 <?php
+namespace PHP;
+
 /**
  * Created by PhpStorm.
  * User: vittorio
  * Date: 23/03/18
  * Time: 18:01
  */
+
+include __DIR__ . '/../vendor/autoload.php';
+
+use Exception;
+use PDO;
+use RuntimeException;
 
 class User
 {

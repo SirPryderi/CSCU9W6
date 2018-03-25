@@ -1,11 +1,12 @@
 <?php
+namespace PHP;
+
 /**
  * Created by PhpStorm.
  * User: vittorio
  * Date: 23/03/18
  * Time: 18:15
  */
-
 class Paginator
 {
     public static function makeHeader($title)

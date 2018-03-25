@@ -6,8 +6,10 @@
  * Time: 17:55
  */
 
-include 'php/Paginator.php';
-include 'php/User.php';
+use PHP\Paginator;
+use PHP\User;
+
+include 'vendor/autoload.php';
 
 session_start();
 
