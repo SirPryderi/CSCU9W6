@@ -3,11 +3,12 @@
 - [X] Database
     - [X] _users_ table
 
-- [X] Front End
+- [ ] Front End
     - [X] Register Page
     - [X] Login Page
     - [X] Forgot Page
-    - [X] Live Validation
+    - [ ] Live Validation
+        - [ ] Disable submit
         - [X] Regex
     
 - [ ] Backend
@@ -16,6 +17,6 @@
     - [X] Login
     - [X] Forgot
     - [X] Validation
-    - [ ] Prepare and validate SQL
+    - [X] Prepare and validate SQL
     - [X] Session
     - [ ] Session on Redis?

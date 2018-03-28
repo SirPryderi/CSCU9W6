@@ -60,15 +60,21 @@ class User
 
         self::generateHashPair($password, $password_hash, $salt_hash);
 
-        $statement = "INSERT INTO users (email, password, salt) VALUES ('$email', '$password_hash', '$salt_hash' )";
+        $statement = 'INSERT INTO users (email, password, salt) VALUES (:email, :password_hash, :salt_hash)';
 
         $query = self::$db->prepare($statement);
+
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':password_hash', $password_hash);
+        $query->bindParam(':salt_hash', $salt_hash);
 
         $results = $query->execute();
 
         if (!$results) {
-            throw new RuntimeException("Failed to create the user due to an unknown error.");
+            throw new RuntimeException('Failed to create the user due to an unknown error.');
         }
+
+        Notifier::addSuccessMessage("User $email created successfully.");
     }
 
     /**
@@ -78,7 +84,7 @@ class User
     private static function validate($email, $password): void
     {
         if (empty($email)) {
-            throw new RuntimeException("Email is empty.");
+            throw new RuntimeException('Email is empty.');
         }
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
@@ -90,19 +96,23 @@ class User
         }
 
         if (empty($password)) {
-            throw new RuntimeException("Password is empty.");
+            throw new RuntimeException('Password is empty.');
         }
     }
 
     public static function getUserByEmail($email)
     {
-        $results = self::$db->query("SELECT id, email, password, salt FROM users WHERE email = '$email' LIMIT 1");
+        $query = self::$db->prepare('SELECT id, email, password, salt FROM users WHERE email = :email LIMIT 1');
+
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+
+        $results = $query->execute();
 
         if (!$results) {
-            throw new RuntimeException("Failed to fetch user.");
+            throw new RuntimeException('Failed to fetch user.');
         }
 
-        $rawUser = $results->fetchObject();
+        $rawUser = $query->fetchObject();
 
         if ($rawUser == null) {
             return null;
@@ -129,13 +139,13 @@ class User
         $user = self::getUserByEmail($email);
 
         if ($user === null) {
-            throw new RuntimeException("Email not present in the database.");
+            throw new RuntimeException('Email not present in the database.');
         }
 
         $password_salted = self::encode($password . $user->salt);
 
         if ($password_salted !== $user->password) {
-            throw new RuntimeException("Wrong password.");
+            throw new RuntimeException('Wrong password.');
         }
 
         $_SESSION['user'] = $user;
@@ -163,7 +173,7 @@ class User
      */
     public static function getUsers()
     {
-        $results = self::$db->query("SELECT id, email, password, salt FROM users");
+        $results = self::$db->query('SELECT id, email, password, salt FROM users');
 
         $users = [];
 
@@ -181,7 +191,7 @@ class User
         $user = self::getUserByEmail($email);
 
         if ($user === null) {
-            throw new RuntimeException("User not present our databases.");
+            throw new RuntimeException('User not present our databases.');
         }
 
         $password = uniqid();
@@ -201,7 +211,15 @@ class User
 
         self::generateHashPair($password, $password_hash, $salt_hash);
 
-        self::$db->query("UPDATE users SET salt = '$salt_hash', password = '$password_hash' WHERE id = $this->id");
+        $query = self::$db->prepare('UPDATE users SET salt = :salt_hash, password = :password_hash WHERE id = :id');
+
+        $query->bindParam(':salt_hash', $salt_hash);
+        $query->bindParam(':password_hash', $password_hash);
+        $query->bindParam(':id', $this->id, PDO::PARAM_INT);
+
+        if (!$query->execute()) {
+            throw new RuntimeException('Failed to update passwords due to an error with the database.');
+        }
     }
 
     /**
