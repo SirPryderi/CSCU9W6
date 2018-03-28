@@ -11,7 +11,7 @@
         - [ ] Disable submit
         - [X] Regex
     
-- [ ] Backend
+- [X] Backend
     - [X] Registration
         - [X] Message for existing email
     - [X] Login
@@ -19,4 +19,4 @@
     - [X] Validation
     - [X] Prepare and validate SQL
     - [X] Session
-    - [ ] Session on Redis?
+    - [X] Session on Redis?
