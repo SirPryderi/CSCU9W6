@@ -1,3 +1,5 @@
+Simple login implementation done with Docker, PHP7, and PostgreSQL.
+
 # TODO
 
 - [X] Database
