@@ -75,6 +75,9 @@ class User
         }
 
         Notifier::addSuccessMessage("User $email created successfully.");
+
+        // Logs the user in after the account has been created
+        self::login($email, $password);
     }
 
     /**
