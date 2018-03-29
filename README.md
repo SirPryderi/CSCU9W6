@@ -8,6 +8,7 @@
     - [X] Login Page
     - [X] Forgot Page
     - [ ] Live Validation
+        - [ ] AJAX exist user check
         - [ ] Disable submit
         - [X] Regex
     
