@@ -17,7 +17,7 @@ if (User::isLogged()) {
     header('Location: /');
 }
 
-Paginator::makeHeader('login');
+Paginator::makeHeader('Login');
 ?>
 
     <div class="container" id="login">
