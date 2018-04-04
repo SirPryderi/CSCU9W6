@@ -1,4 +1,5 @@
 <?php
+
 namespace PHP;
 
 /**
@@ -24,7 +25,8 @@ class Notifier
         return isset($_SESSION['error']);
     }
 
-    public static function isSuccessMessage(){
+    public static function isSuccessMessage()
+    {
         return isset($_SESSION['success']);
     }
 
@@ -39,9 +41,13 @@ class Notifier
      */
     private static function getAndDelete($type)
     {
-        $message = $_SESSION[$type];
-        unset($_SESSION[$type]);
-        return $message;
+        if (isset($_SESSION[$type])) {
+            $message = $_SESSION[$type];
+            unset($_SESSION[$type]);
+            return $message;
+        } else {
+            return null;
+        }
     }
 
     public static function getSuccessMessage()
