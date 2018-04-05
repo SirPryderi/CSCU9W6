@@ -16,7 +16,7 @@ Paginator::makeHeader('Register');
 
     <div class="container" id="register">
         <div class="wrapper">
-            <form action="rest/" method="post" name="register" class="form">
+            <form action="rest/" method="post" name="register" class="form" id="form-register">
                 <h3 class="form-heading">Register</h3>
                 <hr class="colorgraph">
                 <br>

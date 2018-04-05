@@ -27,6 +27,7 @@ $(() => {
     const passwordConfirmField = $('input.password-confirm');
     const passwordField = $('input[type=password]');
     const emailField = $('input[type=email]');
+    const emailRegisterField = $('#form-register input[type=email]');
     const passwordMessage = $('#password-info-message');
 
     const confirmExists = passwordConfirmField.length > 0;
@@ -70,4 +71,38 @@ $(() => {
             }
         }
     });
+
+
+    let wto;
+
+    emailRegisterField.keyup(function () {
+        const field = $(this);
+
+        clearTimeout(wto);
+
+        wto = setTimeout(function () {
+            if (field.hasClass('is-valid')) {
+                $.post({
+                    type: "POST",
+                    url: '/rest/',
+                    data: {
+                        action: 'user-exists',
+                        email: field.val()
+                    },
+                    success: function (data) {
+                        const error = "User already exists!";
+
+                        if (data['user-exists'] === true) {
+                            field.addClass('is-invalid');
+
+                            passwordMessage.text(error);
+                        } else if (passwordMessage.text() === error) {
+                            passwordMessage.text("");
+                        }
+                    }
+                });
+            }
+        }, 500);
+    });
+
 });
