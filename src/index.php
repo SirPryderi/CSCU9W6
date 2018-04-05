@@ -30,8 +30,9 @@ Paginator::makeHeader('Home');
         </div>
     </nav>
 
-    <div class="container" id="register">
+    <div class="container" id="index">
         <div class="wrapper">
+            <?php Paginator::errorNotification() ?>
             <h1>Users</h1>
             <hr class="colorgraph">
             <table class="table">
