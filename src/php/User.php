@@ -24,6 +24,7 @@ class User
 
     private $id;
     private $email;
+    private $name;
     private $password;
     private $salt;
 
@@ -31,18 +32,20 @@ class User
      * User constructor.
      * @param $id integer
      * @param $email string
+     * @param $name name
      * @param $password string
      * @param $salt string
      */
-    public function __construct($id, $email, $password, $salt)
+    public function __construct($id, $email, $name, $password, $salt)
     {
         $this->id = intval($id);
         $this->email = $email;
+        $this->name = $name;
         $this->password = $password;
         $this->salt = $salt;
     }
 
-    public static function createUser($email, $password, $passwordConfirm)
+    public static function createUser($email, $name, $password, $passwordConfirm)
     {
         assert(self::$db != null);
 
@@ -56,15 +59,20 @@ class User
             throw new RuntimeException("User $email already exists.");
         }
 
-        $password_hash = $salt_hash = null;
+        $name = filter_var($name, FILTER_SANITIZE_STRING);
+
+        if (empty($name)) {
+            throw new RuntimeException("Invalid name provided.");
+        }
 
         self::generateHashPair($password, $password_hash, $salt_hash);
 
-        $statement = 'INSERT INTO users (email, password, salt) VALUES (:email, :password_hash, :salt_hash)';
+        $statement = 'INSERT INTO users (email, name, password, salt) VALUES (:email, :name, :password_hash, :salt_hash)';
 
         $query = self::$db->prepare($statement);
 
         $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':name', $name, PDO::PARAM_STR);
         $query->bindParam(':password_hash', $password_hash);
         $query->bindParam(':salt_hash', $salt_hash);
 
@@ -74,7 +82,7 @@ class User
             throw new RuntimeException('Failed to create the user due to an unknown error.');
         }
 
-        Notifier::addSuccessMessage("User $email created successfully.");
+        Notifier::addSuccessMessage("Welcome, $name!");
 
         // Logs the user in after the account has been created
         self::login($email, $password);
@@ -121,7 +129,7 @@ class User
             return null;
         }
 
-        return new User($rawUser->id, $rawUser->email, $rawUser->password, $rawUser->salt);
+        return new User($rawUser->id, $rawUser->name, $rawUser->email, $rawUser->password, $rawUser->salt);
     }
 
     private static function generateHashPair($password, &$password_hash, &$salt_hash)
@@ -176,12 +184,12 @@ class User
      */
     public static function getUsers()
     {
-        $results = self::$db->query('SELECT id, email, password, salt FROM users');
+        $results = self::$db->query('SELECT id, email, name, password, salt FROM users');
 
         $users = [];
 
         while ($result = $results->fetchObject()) {
-            $users[] = new User($result->id, $result->email, $result->password, $result->salt);
+            $users[] = new User($result->id, $result->email, $result->name, $result->password, $result->salt);
         }
 
         return $users;
@@ -239,5 +247,13 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

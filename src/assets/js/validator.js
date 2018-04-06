@@ -11,6 +11,18 @@ function validateEmail(email) {
     return re.test(String(email).toLowerCase());
 }
 
+function validateName(name) {
+    if (typeof name !== "string") {
+        return false;
+    }
+
+    if (name.length < 3) {
+        return false;
+    }
+
+    return true;
+}
+
 $.fn.validate = function () {
     this.addClass('is-valid');
     this.removeClass('is-invalid');
@@ -27,10 +39,22 @@ $(() => {
     const passwordConfirmField = $('input.password-confirm');
     const passwordField = $('input[type=password]');
     const emailField = $('input[type=email]');
+    const nameField = $('input[name=name]');
     const emailRegisterField = $('#form-register input[type=email]');
     const passwordMessage = $('#password-info-message');
 
     const confirmExists = passwordConfirmField.length > 0;
+
+    nameField.keyup(function () {
+        const elem = $(this);
+        const value = elem.val();
+
+        if (validateName(value)) {
+            elem.validate();
+        } else {
+            elem.invalidate();
+        }
+    });
 
     emailField.keyup(function () {
         const elem = $(this);
@@ -47,22 +71,24 @@ $(() => {
         const elem = $(this);
         const value = elem.val();
 
-        const number = 2;
+        const minLength = 8;
 
-        if (value.length > number) {
+        if (value.length > minLength) {
             elem.validate();
-            passwordMessage.text(`Nice password!`);
+            passwordMessage.text("Nice password!");
         } else {
             elem.invalidate();
-            passwordMessage.text(`Password must be at least ${number} characters long`);
+            passwordMessage.text(`Password must be at least ${minLength} characters long`);
             return;
         }
+
+        // TODO improve password strictness
 
         if (confirmExists && passwordConfirmField.val().length > 0) {
             if (passwordField.val() !== passwordConfirmField.val()) {
                 passwordField.invalidate();
                 passwordConfirmField.invalidate();
-                passwordMessage.text(`Passwords do not match.`);
+                passwordMessage.text("Passwords do not match.");
             } else {
                 passwordMessage.text("Password match!");
                 passwordMessage.validate();

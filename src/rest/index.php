@@ -54,9 +54,10 @@ function handleAction($action): void
 
     switch ($action) {
         case 'register':
+            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_EMAIL);
             $passwordConfirm = filter_input(INPUT_POST, 'password-confirm', FILTER_SANITIZE_EMAIL);
-            User::createUser($email, $password, $passwordConfirm);
+            User::createUser($email, $name, $password, $passwordConfirm);
             break;
         case 'login':
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_EMAIL);
