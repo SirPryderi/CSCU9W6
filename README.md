@@ -10,7 +10,8 @@ Simple login implementation done with Docker, PHP7, and PostgreSQL.
     - [X] Login Page
     - [X] Forgot Page
     - [ ] Live Validation
-        - [ ] AJAX exist user check
+        - [X] AJAX exist user check
+        - [ ] Improve password validation
         - [ ] Disable submit
         - [X] Regex
     
