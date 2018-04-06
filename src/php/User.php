@@ -113,7 +113,7 @@ class User
 
     public static function getUserByEmail($email)
     {
-        $query = self::$db->prepare('SELECT id, email, password, salt FROM users WHERE email = :email LIMIT 1');
+        $query = self::$db->prepare('SELECT id, email, name, password, salt FROM users WHERE email = :email LIMIT 1');
 
         $query->bindParam(':email', $email, PDO::PARAM_STR);
 
