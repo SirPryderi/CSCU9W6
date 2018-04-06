@@ -32,7 +32,7 @@ class User
      * User constructor.
      * @param $id integer
      * @param $email string
-     * @param $name name
+     * @param $name string
      * @param $password string
      * @param $salt string
      */
@@ -129,7 +129,7 @@ class User
             return null;
         }
 
-        return new User($rawUser->id, $rawUser->name, $rawUser->email, $rawUser->password, $rawUser->salt);
+        return new User($rawUser->id, $rawUser->email, $rawUser->name, $rawUser->password, $rawUser->salt);
     }
 
     private static function generateHashPair($password, &$password_hash, &$salt_hash)
