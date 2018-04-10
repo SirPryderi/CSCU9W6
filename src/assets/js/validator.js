@@ -68,33 +68,63 @@ $(() => {
     });
 
     passwordField.keyup(function () {
-        const elem = $(this);
-        const value = elem.val();
+        const thisField = $(this);
+        const value = thisField.val();
+
+        const alphanumerical = /^[a-zA-Z0-9]+$/g;
+        const hasLowerCase = /[a-z]+/g;
+        const hasUpperCase = /[A-Z]+/g;
+        const hasDigit = /[0-9]+/g;
 
         const minLength = 8;
 
-        if (value.length > minLength) {
-            elem.validate();
-            passwordMessage.text("Nice password!");
-        } else {
-            elem.invalidate();
-            passwordMessage.text(`Password must be at least ${minLength} characters long`);
+        function validationFailed(text) {
+            thisField.invalidate();
+            passwordMessage.text(text);
+        }
+
+        if (value.length < minLength) {
+            validationFailed(`Password must be at least ${minLength} characters long`);
             return;
         }
 
-        // TODO improve password strictness
+        if (!alphanumerical.test(value)) {
+            validationFailed("Password must only contain alphanumerical characters.");
+            return;
+        }
 
-        if (confirmExists && passwordConfirmField.val().length > 0) {
-            if (passwordField.val() !== passwordConfirmField.val()) {
-                passwordField.invalidate();
-                passwordConfirmField.invalidate();
-                passwordMessage.text("Passwords do not match.");
+        if (!hasLowerCase.test(value)) {
+            validationFailed("Password must contain a lowercase character.");
+            return;
+        }
+
+        if (!hasUpperCase.test(value)) {
+            validationFailed("Password must contain a uppercase character.");
+            return;
+        }
+
+        if (!hasDigit.test(value)) {
+            validationFailed("Password must contain a digit.");
+            return;
+        }
+
+        if (confirmExists) {
+            if (passwordConfirmField.val().length > 0) {
+                if (passwordField.val() !== passwordConfirmField.val()) {
+                    passwordConfirmField.invalidate();
+                    validationFailed("Passwords do not match.");
+                } else {
+                    passwordMessage.text("Password match!");
+                    passwordMessage.validate();
+                    thisField.validate();
+                    passwordConfirmField.validate();
+                }
             } else {
-                passwordMessage.text("Password match!");
-                passwordMessage.validate();
-                passwordField.validate();
-                passwordConfirmField.validate();
+                passwordMessage.text("");
+                thisField.validate();
             }
+        } else {
+            thisField.validate();
         }
     });
 
