@@ -31,6 +31,10 @@ $.fn.invalidate = function () {
     return this;
 };
 
+function isFormValid(form) {
+    return form.find(".needs-validation").length === form.find("input.is-valid").length;
+}
+
 $(() => {
     const passwordConfirmField = $('input.password-confirm');
     const passwordField = $('input[type=password]');
@@ -38,6 +42,8 @@ $(() => {
     const nameField = $('input[name=name]');
     const emailRegisterField = $('#form-register input[type=email]');
     const passwordMessage = $('#password-info-message');
+
+    let wto;
 
     // noinspection JSUnresolvedVariable
     const confirmExists = passwordConfirmField.length > 0;
@@ -113,7 +119,7 @@ $(() => {
                 } else {
                     passwordMessage.text("Password match!");
                     passwordMessage.validate();
-                    thisField.validate();
+                    passwordField.validate();
                     passwordConfirmField.validate();
                 }
             } else {
@@ -124,9 +130,6 @@ $(() => {
             thisField.validate();
         }
     });
-
-
-    let wto;
 
     emailRegisterField.keyup(function () {
         const field = $(this);
@@ -158,4 +161,12 @@ $(() => {
         }, 500);
     });
 
+    $('.validation-required').submit(function (e) {
+        if (!isFormValid($(this))) {
+            e.preventDefault();
+            $(this).find('.is-invalid').addClass('apply-shake').on('animationend', function () {
+                $(this).removeClass('apply-shake').focus();
+            });
+        }
+    });
 });

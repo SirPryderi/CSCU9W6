@@ -16,18 +16,22 @@ Paginator::makeHeader('Register');
 
     <div class="container" id="register">
         <div class="wrapper">
-            <form action="rest/" method="post" name="register" class="form" id="form-register">
+            <form action="rest/" method="post" name="register" class="form validation-required" id="form-register">
                 <h3 class="form-heading">Register</h3>
                 <hr class="colorgraph">
                 <br>
                 <?php Paginator::errorNotification() ?>
 
                 <div class="input-group-cluster">
-                    <input type="email" class="form-control" name="email" placeholder="Email" required="" autofocus=""/>
-                    <input type="text" class="form-control" name="name" placeholder="Full Name" required=""/>
-                    <input type="password" class="form-control password" name="password" placeholder="Password"
+                    <input type="email" class="form-control needs-validation" name="email" placeholder="Email"
+                           required="" autofocus=""/>
+                    <input type="text" class="form-control needs-validation" name="name" placeholder="Full Name"
                            required=""/>
-                    <input type="password" class="form-control password-confirm" name="password-confirm"
+                    <input type="password" class="form-control password needs-validation" name="password"
+                           placeholder="Password"
+                           required=""/>
+                    <input type="password" class="form-control password-confirm needs-validation"
+                           name="password-confirm"
                            placeholder="Confirm Password" required=""/>
                 </div>
 
